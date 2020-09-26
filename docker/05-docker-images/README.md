@@ -69,6 +69,7 @@ review the history of the `enve-alpine-ping` image
 image build from a Dockerfile in order to install the ping command and exec it against `yahoo.com` (`dockerfile-enve-ubuntu-ping` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
 
     cp dockerfile-enve-ubuntu-ping Dockerfile
+
     docker image build -t enve-ubuntu-ping-img .
 
 
@@ -78,6 +79,8 @@ run a container from the `enve-ubuntu-ping-img` image in order to test the ping 
 
 
 image build from a Dockerfile in order to install a nginx server and and expose it in the port 80 (`dockerfile-enve-ubuntu-nginx` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
+
+    cp dockerfile-enve-ubuntu-nginx Dockerfile
 
     docker image build -t enve-ubuntu-nginx-img .
 
