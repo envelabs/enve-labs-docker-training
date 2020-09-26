@@ -1,3 +1,5 @@
+# Running and Managing containers
+
 ### checking docker version
     docker version
 
@@ -6,7 +8,7 @@ getting help from docker
 
     docker help
 
-getting help for an especific docker command
+getting help for an specific docker command
 
     docker conatainer help
 
@@ -128,3 +130,20 @@ access the last 5 lines of log of a running container named `question`
 follow the log of a running container named `question`
 
     docker container logs --follow question
+
+### checking for docker resource consumption
+check for resource consumption
+
+    docker stats --all
+
+general form to check resource consumption by `id` or `name`
+
+    docker stats <id | name>
+
+check for specific columns like `cpu`
+
+    docker stats --format "{{.Container}}: {{.CPUPerc}}"
+
+one liner that check for resource consumption grouped by `id`
+
+    docker ps -q | xargs  docker stats --no-stream
