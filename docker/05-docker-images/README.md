@@ -8,11 +8,11 @@ search for an image named `hello-world` in the default public registry
 
 list local images available from the local registry
 
-    docker images
+    docker image ls
 
 download an image from a public repository
 
-    docker pull hello-world
+    docker image pull hello-world
 
 search by specific tags against docker hub api v1
 
@@ -60,40 +60,49 @@ check for the new `enve-alpine-ping` image
 
     docker image ls
 
-review the history of the `history enve-alpine-ping` image
+review the history of the `enve-alpine-ping` image
 
     docker image history enve-alpine-ping
 
 
 ### Docker Image creation from a Dockerfile
-image build from a Dockerfile in order to install the ping command and exec it against `yahoo.com` (`dockerfile-enve-ping` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
+image build from a Dockerfile in order to install the ping command and exec it against `yahoo.com` (`dockerfile-enve-ubuntu-ping` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
 
-    docker image build -t enve-alpine-ping-img .
-
-
-run a container from the `enve-alpine-ping-img` image in order to test the ping command
-
-    docker container run --rm -it enve-alpine-ping-img
+    cp dockerfile-enve-ubuntu-ping Dockerfile
+    docker image build -t enve-ubuntu-ping-img .
 
 
-image build from a Dockerfile in order to install a nginx server and and expose it in the port 80 (`dockerfile-enve-nginx` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
+run a container from the `enve-ubuntu-ping-img` image in order to test the ping command
 
-        docker image build -t enve-ubuntu-nginx-img .
+    docker container run --rm -it enve-ubuntu-ping-img
+
+
+image build from a Dockerfile in order to install a nginx server and and expose it in the port 80 (`dockerfile-enve-ubuntu-nginx` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
+
+    docker image build -t enve-ubuntu-nginx-img .
 
 
 run a container from the `enve-ubuntu-nginx-img` image in order to test the nginx server
 
-    docker container run --rm -it --name enve-ubuntu-nginx-v2 enve-ubuntu-nginx-img
+    docker container run --rm -it --name enve-ubuntu-nginx enve-ubuntu-nginx-img
 
 ### Docker creation from a running container into a `tarball` file
 image save into a tarball file
 
-    docker image save -o ./enve-ubuntu-nginx-img-v2.tar enve-ubuntu-nginx-v2
+    docker image save -o ./enve-ubuntu-nginx-img-v2.tar enve-ubuntu-nginx
 
 image load from the `tarball` file into the local registry
 
     docker image load -i /enve-ubuntu-nginx-img-v2.tar
 
+### Docker image remove
+general form in order to remove an image from the local repository
+
+    docker image rm <image_id>
+
+remove unused docker Images
+
+    docker image prune
 
 ### Docker Public Registry
 Docker containers are executed based in existing images which are stored in private or public registries. Private registries or repositories require users to authenticate before pulling images. Public images can be accessed by anyone. </br>
