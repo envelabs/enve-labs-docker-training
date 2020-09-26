@@ -71,23 +71,25 @@ image build from a Dockerfile in order to install the ping command and exec it a
     cp dockerfile-enve-ubuntu-ping Dockerfile
 
     docker image build --tag enve-ubuntu-ping .
-    
+
 
 another method is to pass the content of the dockerfile for stdin
 
     cat dockerfile-enve-ubuntu-ping | docker build -t enve-ubuntu-ping -
 
 
+also it is possible to pass the name of the dockerfile as param
+
+    docker image build --tag enve-ubuntu-ping --file dockerfile-enve-ubuntu-ping .
+
 run a container from the `enve-ubuntu-ping` image in order to test the ping command
 
     docker container run --rm -it enve-ubuntu-ping
 
 
-image build from a Dockerfile in order to install a nginx server and and expose it in the port 80 (`dockerfile-enve-ubuntu-nginx` file in the directory should be copied to `Dockerfile`, which is the default file used by the `docker build` process)
+image build from a Dockerfile in order to install nginx server
 
-    cp dockerfile-enve-ubuntu-nginx Dockerfile
-
-    docker image build --tag enve-ubuntu-nginx-img .
+    docker image build --tag enve-ubuntu-nginx --file dockerfile-enve-ubuntu-nginx .
 
 
 run a container from the `enve-ubuntu-nginx-img` image in order to test the nginx server
