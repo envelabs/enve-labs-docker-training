@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "hashicorp/bionic64"
+  config.vm.hostname = "enve-labs-docker-k8s-vm"
+  config.vm.network :public_network, bridge: ''
+  config.vm.network "forwarded_port", guest: 80, host: 80
+  config.vm.network "forwarded_port", guest: 443, host: 443
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
+
+  config.vm.synced_folder "./", "/home/vagrant/shared"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "enve-labs-docker-k8s-vm"
+    vb.memory = 4096
+    vb.cpus = 2
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get remove docker docker-engine docker.io
+      sudo apt-get update && sudo apt-get -y upgrade
+      sudo apt-get install -y apt-transport-https ca-certificates software-properties-common gnupg2 curl jq conntrack
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo apt-key fingerprint 0EBFCD88
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+      sudo apt-get update
+      sudo apt-get install -y docker-ce kubectl
+      curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo chmod +x minikube && sudo mv minikube /usr/local/bin/minikube
+      echo 'export CHANGE_MINIKUBE_NONE_USER=true' >> ~/.bashrc
+  SHELL
+
+end
