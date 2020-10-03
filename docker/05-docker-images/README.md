@@ -1,7 +1,7 @@
 # Docker Images
-Container images are templates from which containers are created. These images are composed of many layers, where the first layer in the image is called the base layer. Each layer of the image is a well defined action related to a package installation or an specific setup required by the application in order to run.
+Container images archives that works as read only templates from which containers are created. These images are composed of many layers, where the first layer in the image is called the base layer. Each layer of the image is a well defined instruction related to a package installation or an specific setup required by the application in order to run.
 
-
+### Docker Image Search
 search for an image named `hello-world` in the default public registry
 
     docker search hello-world
@@ -92,18 +92,18 @@ image build from a Dockerfile in order to install nginx server
     docker image build --tag enve-ubuntu-nginx --file dockerfile-enve-ubuntu-nginx .
 
 
-run a container from the `enve-ubuntu-nginx-img` image in order to test the nginx server
+run a container from the `enve-ubuntu-nginx` image in order to test the nginx server
 
-    docker container run --rm -it --name enve-ubuntu-nginx enve-ubuntu-nginx-img
+    docker container run --rm -it --name enve-ubuntu-nginx enve-ubuntu-nginx
 
 ### Docker creation from a running container into a `tarball` file
 image save into a tarball file
 
-    docker image save -o ./enve-ubuntu-nginx-img-v2.tar enve-ubuntu-nginx
+    docker image save -o ./enve-ubuntu-nginx-img.tar enve-ubuntu-nginx
 
 image load from the `tarball` file into the local registry
 
-    docker image load -i /enve-ubuntu-nginx-img-v2.tar
+    docker image load -i /enve-ubuntu-nginx-img.tar
 
 ### Docker image remove
 general form in order to remove an image from the local repository
