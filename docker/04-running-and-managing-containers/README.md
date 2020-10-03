@@ -119,6 +119,10 @@ running an http request against the mapped port on the `host` machine for the co
     curl http://localhost:80
     hola amigos!
 
+extracting files from a running container 
+
+    docker container cp nginx:/usr/share/nginx/html/index.html extracted-index.html  
+
 ### attach to a running container
 attach to a running container named `question`
 
