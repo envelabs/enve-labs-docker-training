@@ -2,7 +2,7 @@
 This directory contains a list of commands required to run an application inside a docker container in a virtualized environment.</br>
 Please note that this process was successfully tested in macOS and Linux host systems, hopefully this will work also in Windows environments.
 
-### Pre requisites
+### Prerequisites
 
 - VirtualBox (https://www.virtualbox.org) must be installed on your computer.
 - Vagrant (https://vagrantup.com) must be installed on your computer.
