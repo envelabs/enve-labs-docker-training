@@ -19,7 +19,7 @@ running an `echo` command inside a container from an linux alpine image
 
 running a `ping` command inside a container from a linux centos image
 
-    docker run centos ping -c 5 yahoo.com
+    docker container run centos ping -c 5 yahoo.com
 
 ### running a container in daemon / detached mode
 this bash code exec a `wget` command against a trivia public api that returns random data
@@ -33,7 +33,7 @@ done
 
 lets run the wget command against the trivia public api from a docker container running in daemon / detached mode
 
-    docker run -d -it --name question ubuntu bash -c "apt update; apt install -y wget jq; while :; do  wget -qO- http://jservice.io/api/random | jq .[0].question; sleep 2; done"
+    docker container run -d -it --name question ubuntu bash -c "apt update; apt install -y wget jq; while :; do  wget -qO- http://jservice.io/api/random | jq .[0].question; sleep 2; done"
 
 ### docker list processes
 list docker running containers
@@ -103,6 +103,21 @@ general form in order to exec a command inside a running container
 exec a `bash` prompt in a running container named `question`
 
     docker container exec -i -t question /bin/sh
+
+### copy files into running containers
+run a linux nginx container and name it as `nginx`, mapping the port 80 from the host machine to the port 80 on the container
+
+    docker container run --name nginx -p 80:80 -d nginx:latest
+
+create an `index.html` file and copy it into the running container under the `/usr/share/nginx/html/` directory, which is the default path for the web service
+
+    echo 'hola amigos!' > index.html
+    docker container cp index.html nginx:/usr/share/nginx/html/index.html
+
+running an http request against the mapped port on the `host` machine for the content of the web server, we should receive a result like this
+
+    curl http://localhost:80
+    hola amigos!
 
 ### attach to a running container
 attach to a running container named `question`
