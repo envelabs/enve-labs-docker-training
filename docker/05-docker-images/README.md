@@ -1,5 +1,8 @@
 # Docker Images
-Container images archives that works as read only templates from which containers are created. These images are composed of many layers, where the first layer in the image is called the base layer. Each layer of the image is a well defined instruction related to a package installation or an specific setup required by the application in order to run.
+Container images are files that works as read only templates from which containers are created. These images are composed of many layers, where the first layer in the image is called the base layer. Each layer of the image is a well defined instruction related to a package installation or an specific setup required by the application in order to run.
+
+There are three methods in order to create an image. The first one is by interactively building a container which contains all the changes required and then saving those changes into a new image. The second, building an image based in a manifest usually known as `Dockerfile`. And the third one is to importing the image into the system from a tarball, which is an specific file type that collects and group several files.
+
 
 ### Docker Image Search
 search for an image named `hello-world` in the default public registry
@@ -23,16 +26,16 @@ search by specific tags against docker hub api v2
     curl -s 'https://registry.hub.docker.com/v2/repositories/library/debian/tags/' | jq -r '."results"[]["name"]'
 
 ### Creating an image from a running container
-running a container named `enve-alpine-test` and get a shell inside
+running a container named `enve-alpine-test` and get a shell inside of the running container
 
     docker container run -it --name enve-alpine-test alpine:3.10 /bin/sh
 
-install ping utils in the running container
+install the `ping` utility in the running container
 
     apk update && apk add iputils
 
 
-ping `yahoo.com` from the container
+execute a ping command against `yahoo.com` from the running container
 
     ping -c 5 yahoo.com
 
@@ -47,7 +50,7 @@ list all the containers (including those in the `exited` status)
     docker ps -a
 
 
-diff container named `enve-alpine-test`
+identify the differences between the container named `enve-alpine-test` and its original image with the `diff` subcommand  
 
     docker container diff enve-alpine-test
 
