@@ -1,0 +1,57 @@
+# Composing with Docker
+`docker-compose` is a tool that allow us to deploy an application solution composed by mulitple services interconnected in a single host, exposed as a common `project` through a declarative method defined in a .yml file.
+
+
+##### Compose file
+
+    version: '3.3'
+    services:   
+      db:     
+        image: mysql:5.7     
+        volumes:       
+          - db_data:/var/lib/mysql     
+        restart: always     
+        environment:       
+          MYSQL_ROOT_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress       
+          MYSQL_USER: wordpress       
+          MYSQL_PASSWORD: wordpress
+
+      wordpress:     
+        depends_on:       
+          - db     
+        image: wordpress:latest     
+        ports:       
+          - "8080:80"     
+        restart: always     
+        environment:       
+          WORDPRESS_DB_HOST: db:3306       
+          WORDPRESS_DB_USER: wordpress       
+          WORDPRESS_DB_PASSWORD: wordpress
+          WORDPRESS_DB_NAME: wordpress
+
+    volumes:    
+      db_data: {}
+
+
+##### deploy application
+start the application in detached mode
+
+    docker-compose up -d
+
+stop and remove the application
+
+    docker-compose down
+
+start the application in detached mode defining a project name for it
+
+    docker-compose up -p wordpress -d
+
+
+list processes
+
+    docker-compose ps
+    
+scale the application
+
+    docker-compose up --scale wordpress=3
