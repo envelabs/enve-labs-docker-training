@@ -6,10 +6,10 @@ services:
       - db_data:/var/lib/mysql     
     restart: always     
     environment:       
-      MYSQL_ROOT_PASSWORD: thisisnotforprod
+      MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress       
       MYSQL_USER: wordpress       
-      MYSQL_PASSWORD: alsonotforprod
+      MYSQL_PASSWORD: wordpress
   wordpress:     
     depends_on:       
       - db     
@@ -20,10 +20,9 @@ services:
     environment:       
       WORDPRESS_DB_HOST: db:3306       
       WORDPRESS_DB_USER: wordpress       
-      WORDPRESS_DB_PASSWORD: alsonotforprod
+      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress 
  
 volumes:    
   db_data: {}
-
 
