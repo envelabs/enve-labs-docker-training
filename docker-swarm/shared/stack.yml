@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  webapp:
+    image: nginx:alpine
+    networks:
+      - net1
+    ports:
+      - 8080:80
+    deploy:
+      replicas: 6
+      update_config:
+        parallelism: 2
+        delay: 10s
+      labels:
+        app: webapp
+        environment: envelabs
+
+networks:
+  net1:
+    driver: overlay

@@ -1,0 +1,89 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "enve-labs-docker-swarm-manager-vm" do |subconfig|
+    subconfig.vm.box = "hashicorp/bionic64"
+    subconfig.vm.hostname = "enve-labs-docker-swarm-manager-vm"
+
+    subconfig.vm.provider :virtualbox do |vb|
+      vb.name = "enve-labs-docker-swarm-manager-vm"
+    end
+
+    subconfig.vm.network :public_network, bridge: ''
+    subconfig.vm.network "forwarded_port", guest: 80, host: 80
+    subconfig.vm.network "forwarded_port", guest: 8080, host: 8080
+    subconfig.vm.network "forwarded_port", guest: 3306, host: 3306
+
+    subconfig.vm.synced_folder "./shared", "/home/vagrant/shared"
+
+    subconfig.vm.provision "shell", inline: <<-SHELL
+      echo starting node: master
+      sudo apt-get remove docker docker-engine docker.io
+      sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates software-properties-common curl jq
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo apt-key fingerprint 0EBFCD88
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce
+    SHELL
+  end
+
+  config.vm.define "enve-labs-docker-swarm-node1-vm" do |subconfig|
+    subconfig.vm.box = "hashicorp/bionic64"
+    subconfig.vm.hostname = "enve-labs-docker-swarm-node1-vm"
+
+    subconfig.vm.provider :virtualbox do |vb|
+      vb.name = "enve-labs-docker-swarm-node1-vm"
+    end
+
+    subconfig.vm.network :public_network, bridge: ''
+    subconfig.vm.network "forwarded_port", guest: 80, host: 10080
+    subconfig.vm.network "forwarded_port", guest: 8080, host: 18080
+    subconfig.vm.network "forwarded_port", guest: 3306, host: 13306
+
+    subconfig.vm.synced_folder "./shared", "/home/vagrant/shared"
+
+    subconfig.vm.provision "shell", inline: <<-SHELL
+      echo starting node: enve-labs-docker-swarm-node1-vm
+      sudo apt-get remove docker docker-engine docker.io
+      sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates software-properties-common curl jq
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo apt-key fingerprint 0EBFCD88
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce
+    SHELL
+  end
+
+  config.vm.define "enve-labs-docker-swarm-node2-vm" do |subconfig|
+    subconfig.vm.box = "hashicorp/bionic64"
+    subconfig.vm.hostname = "enve-labs-docker-swarm-node2-vm"
+
+    subconfig.vm.provider :virtualbox do |vb|
+      vb.name = "enve-labs-docker-swarm-node2-vm"
+    end
+
+    subconfig.vm.network :public_network, bridge: ''
+    subconfig.vm.network "forwarded_port", guest: 80, host: 20080
+    subconfig.vm.network "forwarded_port", guest: 8080, host: 28080
+    subconfig.vm.network "forwarded_port", guest: 3306, host: 23306
+
+    subconfig.vm.synced_folder "./shared", "/home/vagrant/shared"
+
+    subconfig.vm.provision "shell", inline: <<-SHELL
+      echo starting node: enve-labs-docker-swarm-node2-vm
+      sudo apt-get remove docker docker-engine docker.io
+      sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates software-properties-common curl jq
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      sudo apt-key fingerprint 0EBFCD88
+      sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      sudo apt-get update
+      sudo apt-get install -y docker-ce
+    SHELL
+  end
+
+end
+
+
