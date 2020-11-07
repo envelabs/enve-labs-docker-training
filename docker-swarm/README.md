@@ -52,9 +52,19 @@ in the second and third instances run
     docker swarm join --token <join-token> <ip address>:2377
 
 
+leave the swarm: from the worker node
+
+    docker swarm leave
+
+
 promote a node to `master`
 
     docker node promote <node2>
+
+
+demote a node from `master`
+
+        docker node demote <node2>
 
 
 create a service
@@ -77,18 +87,19 @@ list tasks (containers) from a service
     docker service ps <service-name>
 
 
-service update
+service update (publish a port)
 
-    docker service update --publish-add 8888 <service-name>
-
-service scale
-
-    docker service scale nginx=4
+    docker service update --publish-add 8080 <service-name>
 
 
-service update
+service replicas update
 
-    docker service --update-parallelism 2 -p 80:80 nginx:alpine
+    docker service update --replicas 4 <service-name>
+
+
+service parallelism update
+
+    docker service --update-parallelism 2 -p 80:80 <service-name>
 
 
 service image update
@@ -98,12 +109,17 @@ service image update
 
 service rollback
 
-    docker service update --rollback --update-delay 0s <service-name>
+    docker service update --rollback <service-name>
 
+
+service scale
+
+        docker service scale nginx=4
 
 checking logs
 
     docker service logs <service-name>
+
 
 mount data volumes
 
@@ -128,3 +144,53 @@ deploy a stack
 list running stacks
 
     docker stack ls
+
+
+remove a stack
+
+    docker stack rm <stack-name>
+
+### Docker Configs
+create a config
+
+    echo "Hello world" | docker config create <config-name> -
+
+
+create a config from a file
+
+    docker config create app.properties ./app.properties
+
+
+list available configs
+
+    docker config ls
+
+deploy a service with a configs
+
+    docker service create \
+    --name nginx \
+    --config source=app.properties,target=/app.properties,mode=0440 \
+    nginx
+
+
+### Docker Secrets
+create a secret
+
+    echo "this is a secret =)" | docker secret create <secret-name> -
+
+
+list available secrets
+
+    docker secret ls
+
+
+create a service that can load a secret
+
+    docker service create --name nginx \
+    -p 8000:8000 \
+    --secret <secret-name> nginx:latest
+
+
+remove a secret
+
+    docker secret rm <secret-name>
