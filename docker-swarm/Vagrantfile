@@ -30,12 +30,12 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-  config.vm.define "enve-labs-docker-swarm-node1-vm" do |subconfig|
+  config.vm.define "enve-labs-docker-swarm-worker1-vm" do |subconfig|
     subconfig.vm.box = "hashicorp/bionic64"
-    subconfig.vm.hostname = "enve-labs-docker-swarm-node1-vm"
+    subconfig.vm.hostname = "enve-labs-docker-swarm-worker1-vm"
 
     subconfig.vm.provider :virtualbox do |vb|
-      vb.name = "enve-labs-docker-swarm-node1-vm"
+      vb.name = "enve-labs-docker-swarm-worker1-vm"
     end
 
     subconfig.vm.network :public_network, bridge: ''
@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
     subconfig.vm.synced_folder "./shared", "/home/vagrant/shared"
 
     subconfig.vm.provision "shell", inline: <<-SHELL
-      echo starting node: enve-labs-docker-swarm-node1-vm
+      echo starting node: enve-labs-docker-swarm-worker1-vm
       sudo apt-get remove docker docker-engine docker.io
       sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates software-properties-common curl jq
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -57,12 +57,12 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 
-  config.vm.define "enve-labs-docker-swarm-node2-vm" do |subconfig|
+  config.vm.define "enve-labs-docker-swarm-worker2-vm" do |subconfig|
     subconfig.vm.box = "hashicorp/bionic64"
-    subconfig.vm.hostname = "enve-labs-docker-swarm-node2-vm"
+    subconfig.vm.hostname = "enve-labs-docker-swarm-worker2-vm"
 
     subconfig.vm.provider :virtualbox do |vb|
-      vb.name = "enve-labs-docker-swarm-node2-vm"
+      vb.name = "enve-labs-docker-swarm-worker2-vm"
     end
 
     subconfig.vm.network :public_network, bridge: ''
@@ -73,7 +73,7 @@ Vagrant.configure("2") do |config|
     subconfig.vm.synced_folder "./shared", "/home/vagrant/shared"
 
     subconfig.vm.provision "shell", inline: <<-SHELL
-      echo starting node: enve-labs-docker-swarm-node2-vm
+      echo starting node: enve-labs-docker-swarm-worker2-vm
       sudo apt-get remove docker docker-engine docker.io
       sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates software-properties-common curl jq
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
